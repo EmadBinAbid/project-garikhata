@@ -94,13 +94,23 @@ function basemap(plotInfoArray)
 	{
 		if(collidePointPoly(mouseX, mouseY, array_polygons_basemap[i].array_of_vectors) == true)
 		{
-			array_polygons_basemap[i].color(0, 0, 0, 255);
+			array_polygons_basemap[i].color(244, 205, 65, 255);
 
 			for(var j=0; j<plotInfoArray.length; j++)
 			{
 				if(array_polygons_basemap[i].plotId == plotInfoArray[j].plotId)
 				{
-					tip = new Tooltip("Plot ID: " + plotInfoArray[j].plotId, mouseX, mouseY, 100, 40);
+					var floorInfo = "";
+					for(var k=0; k<plotInfoArray[j].eachFloorUsage.length; k++)
+					{
+						floorInfo += '\n' + "Floor " + k + ": " + plotInfoArray[j].eachFloorUsage[k].floor;
+					}
+
+					tip = new Tooltip("Plot Information:" + '\n' + "---------------------" + '\n' + "Plot ID: " + plotInfoArray[j].plotId + '\n' + "Plot Use: " + plotInfoArray[j].plotUse + 
+						'\n' + "Front Width: " + plotInfoArray[j].frontWidth + '\n' + "Building Name: " + plotInfoArray[j].buildingName + 
+						'\n' + "Official Plot Number: " + plotInfoArray[j].officialPlotNumber + '\n' + "Year of Built: " + plotInfoArray[j].yearOfBuilt + 
+						'\n' + "No. of Floors: " + plotInfoArray[j].numOfFloors + '\n' + "Each Floor Usage: " + floorInfo, 
+						mouseX, mouseY, 250, 500);
 					tip.show();
 				}
 				else
@@ -111,7 +121,7 @@ function basemap(plotInfoArray)
 		}
 		else
 		{
-			array_polygons_basemap[i].color(0, 0, 255, 255);
+			array_polygons_basemap[i].color(244, 205, 65, 255);
 		}
 	}
 }

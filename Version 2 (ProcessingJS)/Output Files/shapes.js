@@ -86,7 +86,7 @@ function Polygon(array_of_vectors, stroke_or_fill, plotId)
 
 	if(stroke_or_fill === "fill")
 	{
-		fill(this.red, this.green, this.blue, this.alpha);
+		fill(244, 241, 65, 255);
 	}
 	else if(stroke_or_fill === "stroke")
 	{
@@ -111,7 +111,7 @@ function Polygon(array_of_vectors, stroke_or_fill, plotId)
 		
 		if(stroke_or_fill === "fill")
 		{
-			fill(this.red, this.green, this.blue, this.alpha);
+			fill(244, 241, 65, 255);
 		}
 		else if(stroke_or_fill === "stroke")
 		{
@@ -213,7 +213,7 @@ function Tooltip(title, startX, startY, width, height)
 	{
 		noStroke();
 		fill(0, 0, 0, 255);
-		rect(this.startX, this.startY, this.width, this.height);
+		rect(this.startX, this.startY, this.width, this.height, 20);
 		noStroke();
 		fill(255);
 		textSize(15);
