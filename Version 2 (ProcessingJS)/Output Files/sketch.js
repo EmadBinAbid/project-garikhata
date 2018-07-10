@@ -5,7 +5,7 @@ var plotList = null;
 function setPlotList(passedPlotList)
 {
 	plotList = passedPlotList;
-	console.log(plotList);
+	// console.log(plotList);
 }
 
 console.log(plotList);
@@ -33,9 +33,8 @@ function draw()
 	background(255);
 
 	document.getElementById('btnOnBaseMap').onclick = function()
-	{	
-		
-		num[0] = 1; 		
+	{			
+		num[0] = 1;
 	}
 
 	document.getElementById('btnOffBaseMap').onclick = function()
@@ -47,7 +46,7 @@ function draw()
 	document.getElementById('btnOnPlotProfile').onclick = function()
 	{	
 		
-		num[1] = 1; 		
+		num[1] = 1;		
 	}
 
 	document.getElementById('btnOffPlotProfile').onclick = function()

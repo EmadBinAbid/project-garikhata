@@ -1,0 +1,53 @@
+body
+{
+	padding: 10px;
+	background: #ffffff;
+	color: #009900;
+
+}
+
+.heading
+{
+	font-weight: bold;
+}
+
+.buttons
+{
+	width: 300px;
+}
+
+.btn-green
+{
+	background-color: #00ff00;
+	color: #ffffff;
+}
+
+.btn-red
+{
+	background-color: #ff0000;
+	color: #ffffff;
+}
+
+.btn-blue
+{
+	background-color: #0000ff;
+	color: #ffffff;
+}
+
+.btn-plain
+{
+	background-color: #f4cd41;
+	color: #ffffff;
+}
+
+.btnOn
+{
+	float: left;
+	width: 140px;
+}
+
+.btnOff
+{
+	float: right;
+	width: 140px;
+}

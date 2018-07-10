@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Map: GariKhata</title>
+
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+		<script src="./jquery-3.2.1.js"></script>
+
+		<script src="./p5.min.js"></script> 
+		<script src="./p5.collide2d.min.js"></script> 
+		<script src="./basemap.js"></script> 
+		<script src="./plotprofile.js"></script> 
+		<script src="./waterlines.js"></script> 
+		<script src="./gaslines.js"></script> 
+		<script src="./sewagelines.js"></script> 
+		<script src="./shapes.js"></script> 
+		<script src="./sketch.js"></script> 
+
+		<script>
+			var serverResponse = null;
+			var xhttp = new XMLHttpRequest();
+
+			xhttp.onreadystatechange = function()
+			{
+				if(this.readyState == 4 && this.status == 200)
+				{
+					serverResponse = JSON.parse(this.responseText);
+
+					setPlotList(serverResponse.plot);
+				}
+				else
+				{
+					
+				}
+			}
+
+			xhttp.open("GET", "https://ancient-beach-51975.herokuapp.com/plot/all-plots", true);
+			xhttp.send();
+		</script>
+
+		<script>
+			$(document).ready(function()
+			{
+				$("#btnBackToHomepage").click(function()
+				{
+					window.location = "index.html";
+				});
+			});	
+		</script>
+
+	</head>
+
+	<body>
+		<h1 style="text-decoration: underline;">Maps <h4>(GariKhata)</h4> </h1>
+
+		<input class="btn btn-default" type="button" id="btnBackToHomepage" value="Back to homepage">
+		<br><br>
+
+		<div class="buttons">
+			<input class="btn btn-plain btnOn" type="button" id="btnOnBaseMap" value="ON Base Map">
+			<input class="btn btn-plain btnOff" type="button" id="btnOffBaseMap" value="OFF Base Map">
+			<br><br>
+			<input class="btn btn-plain btnOn" type="button" id="btnOnPlotProfile" value="ON Plot Profile">
+			<input class="btn btn-plain btnOff" type="button" id="btnOffPlotProfile" value="OFF Plot Profile">
+			<br><br>
+			<input class="btn btn-blue btnOn" type="button" id="btnOnWaterLines" value="ON Water Lines">
+			<input class="btn btn-blue btnOff" type="button" id="btnOffWaterLines" value="OFF Water Lines">
+			<br><br>
+			<input class="btn btn-red btnOn" type="button" id="btnOnGasLines" value="ON Gas Lines">
+			<input class="btn btn-red btnOff" type="button" id="btnOffGasLines" value="OFF Gas Lines">
+			<br><br>
+			<input class="btn btn-green btnOn" type="button" id="btnOnSewageLines" value="ON Sewage Lines">
+			<input class="btn btn-green btnOff" type="button" id="btnOffSewageLines" value="OFF Sewage Lines">
+			<br>
+
+			<div id="activeLayers">
+				
+			</div>
+		</div>
+	</body>
+</html>
