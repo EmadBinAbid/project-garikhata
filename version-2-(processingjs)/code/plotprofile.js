@@ -13,7 +13,7 @@ var zoom = 0.5;
 
 //Alignment -> Only a basemap property
 var alignX = 0;
-var alignY = 5;
+var alignY = 0;
 
 //Tooltip
 var tip = null;

@@ -181,7 +181,7 @@ function PolyLine(array_of_vectors)
 	this.offset = 0;
 
 	stroke(this.red, this.green, this.blue, this.alpha);
-	strokeWeight(2);
+	strokeWeight(1);
 
 	var i=0;
 	for(i=0; i<this.array_of_vectors.length - 1; i++)
@@ -204,7 +204,7 @@ function PolyLine(array_of_vectors)
 		}
 		this.offset++;
 
-		strokeWeight(2);
+		strokeWeight(1);
 
 		var i=0;
 		for(i=0; i<this.array_of_vectors.length - 1; i++)

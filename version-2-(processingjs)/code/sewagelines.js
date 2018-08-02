@@ -345,38 +345,38 @@ function sewagelines(plotInfoArray)
 	}
 
 	//polygon
-	// for(i=0; i<9; i++)
-	// {
-	// 	if(collidePointPoly(mouseX, mouseY, array_polygons_sewagelines[i].array_of_vectors) == true)
-	// 	{
-	// 		array_polygons_sewagelines[i].color(244, 205, 65, 255);
+	for(i=0; i<9; i++)
+	{
+		if(collidePointPoly(mouseX, mouseY, array_polygons_sewagelines[i].array_of_vectors) == true)
+		{
+			array_polygons_sewagelines[i].color(244, 205, 65, 255);
 
-	// 		for(var j=0; j<plotInfoArray.length; j++)
-	// 		{
-	// 			if(array_polygons_sewagelines[i].plotId == plotInfoArray[j].plotId)
-	// 			{
-	// 				var floorInfo = "";
-	// 				for(var k=0; k<plotInfoArray[j].eachFloorUsage.length; k++)
-	// 				{
-	// 					floorInfo += '\n' + "Floor " + k + ": " + plotInfoArray[j].eachFloorUsage[k].floor;
-	// 				}
+			for(var j=0; j<plotInfoArray.length; j++)
+			{
+				if(array_polygons_sewagelines[i].plotId == plotInfoArray[j].plotId)
+				{
+					var floorInfo = "";
+					for(var k=0; k<plotInfoArray[j].eachFloorUsage.length; k++)
+					{
+						floorInfo += '\n' + "Floor " + k + ": " + plotInfoArray[j].eachFloorUsage[k].floor;
+					}
 
-	// 				tip = new Tooltip("Plot Information:" + '\n' + "---------------------" + '\n' + "Plot ID: " + plotInfoArray[j].plotId + '\n' + "Plot Use: " + plotInfoArray[j].plotUse +
-	// 					'\n' + "Front Width: " + plotInfoArray[j].frontWidth + '\n' + "Building Name: " + plotInfoArray[j].buildingName +
-	// 					'\n' + "Official Plot Number: " + plotInfoArray[j].officialPlotNumber + '\n' + "Year of Built: " + plotInfoArray[j].yearOfBuilt +
-	// 					'\n' + "No. of Floors: " + plotInfoArray[j].numOfFloors + '\n' + "Each Floor Usage: " + floorInfo,
-	// 					mouseX, mouseY, 250, 300);
-	// 				tip.show();
-	// 			}
-	// 			else
-	// 			{
-	// 			}
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		array_polygons_sewagelines[i].color(244, 205, 65, 255);
-	// 	}
-	// }
+					tip = new Tooltip("Plot Information:" + '\n' + "---------------------" + '\n' + "Plot ID: " + plotInfoArray[j].plotId + '\n' + "Plot Use: " + plotInfoArray[j].plotUse +
+						'\n' + "Front Width: " + plotInfoArray[j].frontWidth + '\n' + "Building Name: " + plotInfoArray[j].buildingName +
+						'\n' + "Official Plot Number: " + plotInfoArray[j].officialPlotNumber + '\n' + "Year of Built: " + plotInfoArray[j].yearOfBuilt +
+						'\n' + "No. of Floors: " + plotInfoArray[j].numOfFloors + '\n' + "Each Floor Usage: " + floorInfo,
+						mouseX, mouseY, 250, 300);
+					tip.show();
+				}
+				else
+				{
+				}
+			}
+		}
+		else
+		{
+			array_polygons_sewagelines[i].color(244, 205, 65, 255);
+		}
+	}
 }
 

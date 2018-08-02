@@ -14,11 +14,19 @@ body
 .buttons
 {
 	width: 300px;
+	float: right;
 }
 
 .btn-green
 {
 	background-color: #00ff00;
+	color: #ffffff;
+	transform: translateX(10px);
+}
+
+.btn-green-dark
+{
+	background-color: #008000;
 	color: #ffffff;
 }
 
@@ -26,11 +34,25 @@ body
 {
 	background-color: #ff0000;
 	color: #ffffff;
+	transform: translateX(10px);
+}
+
+.btn-red-dark
+{
+	background-color: #800000;
+	color: #ffffff;
 }
 
 .btn-blue
 {
 	background-color: #0000ff;
+	color: #ffffff;
+	transform: translateX(10px);
+}
+
+.btn-blue-dark
+{
+	background-color: #000080;
 	color: #ffffff;
 }
 
@@ -38,11 +60,18 @@ body
 {
 	background-color: #f4cd41;
 	color: #ffffff;
+	transform: translateX(10px);
+}
+
+.btn-plain-dark
+{
+	background-color: #c1990b;
+	color: #ffffff;
 }
 
 .btnOn
 {
-	float: left;
+	float: right;
 	width: 140px;
 }
 
