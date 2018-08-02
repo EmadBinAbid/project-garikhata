@@ -12,12 +12,14 @@ function setPlotList(passedPlotList)
 console.log(plotList);
 
 //On-Off Tracker
-var num = [1, 0, 0, 0, 0];	//Make an array instead
+var num = [1, 0, 0, 0, 0];
 var numm = 0;
+
+var basemapPrevious = 1;
 
 function setup()
 {
-	createCanvas(500, 500);
+	createCanvas(600, 500);
 	background(255);
 
 	basemapData();
@@ -59,6 +61,7 @@ function draw()
 		{
 			isActiveArray[1] = true;
 			num[1] = 1;
+			// num[0] = 0;
 
 			$('#plotProfile').removeClass('btn-plain-dark').addClass('btn-plain');
 		}

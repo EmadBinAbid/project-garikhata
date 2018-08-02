@@ -14,7 +14,9 @@ body
 .buttons
 {
 	width: 300px;
-	float: right;
+	float: left;
+	margin-left: -460px;
+	margin-right: 270px;
 }
 
 .btn-green
@@ -79,4 +81,16 @@ body
 {
 	float: right;
 	width: 140px;
+}
+
+.heading__plotDetails
+{
+	text-decoration: underline;
+}
+
+.info
+{
+	float: left;
+	margin-top: 200px;
+	width: 300px;
 }

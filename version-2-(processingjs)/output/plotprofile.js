@@ -618,20 +618,20 @@ function plotprofile(plotInfoArray)
 	{
 		if(collidePointRect(mouseX, mouseY, array_rects_plotprofile[i].array_of_vectors[0].x, array_rects_plotprofile[i].array_of_vectors[0].y, array_rects_plotprofile[i].array_of_vectors[1].x, array_rects_plotprofile[i].array_of_vectors[1].y) == true)
 		{
-			array_rects_plotprofile[i].color(0, 0, 0, 255);
+			array_rects_plotprofile[i].color(244, 205, 65, 255);
 			tip = new Tooltip("rect" + i, mouseX, mouseY, 100, 40);
 			tip.show();
 		}
 		else
 		{
-			array_rects_plotprofile[i].color(0, 0, 0, 255);
+			array_rects_plotprofile[i].color(244, 205, 65, 255);
 		}
 	}
 
 	//polygon
 	for(i=0; i<137; i++)
 	{
-		if(collidePointPoly(mouseX, mouseY, array_polygons_plotprofile[i].array_of_vectors) == true)
+		if(collidePointPoly(mouseX, mouseY, array_polygons_plotprofile[i].array_of_vectors) && (array_polygons_plotprofile[i].stroke_or_fill == "stroke") == true)
 		{
 			array_polygons_plotprofile[i].color(244, 205, 65, 255);
 
@@ -645,18 +645,36 @@ function plotprofile(plotInfoArray)
 						floorInfo += '\n' + "Floor " + k + ": " + plotInfoArray[j].eachFloorUsage[k].floor;
 					}
 
-					tip = new Tooltip("Plot Information:" + '\n' + "---------------------" + '\n' + "Plot ID: " + plotInfoArray[j].plotId + '\n' + "Plot Use: " + plotInfoArray[j].plotUse +
-						'\n' + "Front Width: " + plotInfoArray[j].frontWidth + '\n' + "Building Name: " + plotInfoArray[j].buildingName +
-						'\n' + "Official Plot Number: " + plotInfoArray[j].officialPlotNumber + '\n' + "Year of Built: " + plotInfoArray[j].yearOfBuilt +
-						'\n' + "No. of Floors: " + plotInfoArray[j].numOfFloors + '\n' + "Each Floor Usage: " + floorInfo,
-						mouseX, mouseY, 250, 300);
+					var plotId = plotInfoArray[j].plotId;
+					var plotUse = plotInfoArray[j].plotUse;
+					var frontWidth = plotInfoArray[j].frontWidth;
+					var buildingName = plotInfoArray[j].buildingName;
+					var officialPlotNumber = plotInfoArray[j].officialPlotNumber;
+					var yearOfBuilt = plotInfoArray[j].yearOfBuilt;
+					var numberOfFloors = plotInfoArray[j].numOfFloors;
+
+					document.body.addEventListener("click", function(event){
+						document.getElementById("span__plotID").innerHTML = plotId;
+						document.getElementById("span__plotUse").innerHTML = plotUse;
+						document.getElementById("span__frontWidth").innerHTML = frontWidth;
+						document.getElementById("span__buildingName").innerHTML = buildingName;
+						document.getElementById("span__officialPlotNumber").innerHTML = officialPlotNumber;
+						document.getElementById("span__yearOfBuilt").innerHTML = yearOfBuilt;
+						document.getElementById("span__numberOfFloors").innerHTML = numberOfFloors;
+						document.getElementById("span__eachFloorUsage").innerHTML = floorInfo;
+					});
+
+					tip = new Tooltip("Plot ID: " + array_polygons_plotprofile[i].plotId, mouseX, mouseY, 250, 35);
 					tip.show();
 				}
 				else
 				{
+					tip = new Tooltip("Plot ID: " + array_polygons_plotprofile[i].plotId, mouseX, mouseY, 250, 35);
+					tip.show();
 				}
 			}
 		}
+
 		else
 		{
 			array_polygons_plotprofile[i].color(244, 205, 65, 255);

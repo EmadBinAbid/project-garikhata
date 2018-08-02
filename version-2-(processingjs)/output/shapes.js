@@ -83,6 +83,7 @@ function Polygon(array_of_vectors, stroke_or_fill, plotId)
 {
 	this.array_of_vectors = array_of_vectors;
 	this.plotId = plotId;
+	this.stroke_or_fill = stroke_or_fill;
 	
 	this.red = 0;
 	this.green = 0;

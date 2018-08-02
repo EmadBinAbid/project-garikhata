@@ -93,13 +93,13 @@ function gaslines(plotInfoArray)
 		{
 			if(collidePointLine(mouseX, mouseY, array_polylines_gaslines[i].array_of_vectors[j].x, array_polylines_gaslines[i].array_of_vectors[j].y, array_polylines_gaslines[i].array_of_vectors[j+1].x, array_polylines_gaslines[i].array_of_vectors[j+1].y, 1) == true)
 			{
-				array_polylines_gaslines[i].color(0, 0, 255, 255);
+				array_polylines_gaslines[i].color(255, 0, 0, 255);
 				tip = new Tooltip("polyline" + i, mouseX, mouseY, 100, 40);
 				tip.show();
 			}
 			else
 			{
-				array_polylines_gaslines[i].color(0, 0, 255, 255);
+				array_polylines_gaslines[i].color(255, 0, 0, 255);
 			}
 		}
 	}
