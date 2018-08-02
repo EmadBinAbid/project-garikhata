@@ -90,6 +90,14 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                    '\tvar i = 0;\n\n'
     print(rects_info)
 
+    ##Autogenerating PLOT IDs' variable
+
+    PLOTID = ""
+    if(html_filename == "basemap.js"):
+        PLOTID = "GARIKHATA_BASE"
+    elif(html_filename == "plotprofile.js"):
+        PLOTID = "GARIKHATA_PLOT"
+
     ## Writing JavaScript for shapes
     for shape in count_shapes:
 
@@ -385,7 +393,7 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
 
                         js_filler += '];\n'
                         js_filler += '\tpointer_' + shape[0] + 's_' + html_filename[0:len(html_filename) - 3] + ' = new Polygon(' + \
-                                     shape[0] + str(shapeCounter) + ', "stroke");\n'
+                                     shape[0] + str(shapeCounter) + ', "stroke", "' + PLOTID + '_' + str(polygon_no) + '");\n'
                         js_filler += '\tarray_' + shape[0] + 's_' + html_filename[0:len(html_filename) - 3] + '[' + str(polygon_no) + '] = pointer_' + shape[
                                          0] + 's_' + html_filename[0:len(html_filename) - 3] + ';\n\n'
 
@@ -402,7 +410,7 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
 
                         js_filler += '];\n'
                         js_filler += '\tpointer_' + shape[0] + 's_' + html_filename[0:len(html_filename) - 3] + ' = new Polygon(' + \
-                                     shape[0] + str(shapeCounter) + ', "fill");\n'
+                                     shape[0] + str(shapeCounter) + ', "stroke", "' + PLOTID + '_' + str(polygon_no) + '");\n'
                         js_filler += '\tarray_' + shape[0] + 's_' + html_filename[0:len(html_filename) - 3] + '[' + str(polygon_no) + '] = pointer_' + shape[
                                          0] + 's_' + html_filename[0:len(html_filename) - 3] + ';\n\n'
 
@@ -436,16 +444,32 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                 js_function += '\t\t\t\t\t\tfloorInfo += \'\\n\' + "Floor " + k + ": " + plotInfoArray[j].eachFloorUsage[k].floor;\n'
                 js_function += '\t\t\t\t\t}\n\n'
 
-                js_function += '\t\t\t\t\ttip = new Tooltip("Plot Information:" + \'\\n\' + "---------------------" + \'\\n\' + "Plot ID: " + plotInfoArray[j].plotId + \'\\n\' + "Plot Use: " + plotInfoArray[j].plotUse +\n' \
-                                            '\t\t\t\t\t\t\'\\n\' + "Front Width: " + plotInfoArray[j].frontWidth + \'\\n\' + "Building Name: " + plotInfoArray[j].buildingName +\n' \
-                                            '\t\t\t\t\t\t\'\\n\' + "Official Plot Number: " + plotInfoArray[j].officialPlotNumber + \'\\n\' + "Year of Built: " + plotInfoArray[j].yearOfBuilt +\n' \
-                                            '\t\t\t\t\t\t\'\\n\' + "No. of Floors: " + plotInfoArray[j].numOfFloors + \'\\n\' + "Each Floor Usage: " + floorInfo,\n' \
-                                            '\t\t\t\t\t\tmouseX, mouseY, 250, 300);\n'
+                js_function += '\t\t\t\t\tvar plotId = plotInfoArray[j].plotId;\n' \
+                               '\t\t\t\t\tvar plotUse = plotInfoArray[j].plotUse;\n' \
+                               '\t\t\t\t\tvar frontWidth = plotInfoArray[j].frontWidth;\n' \
+                               '\t\t\t\t\tvar buildingName = plotInfoArray[j].buildingName;\n' \
+                               '\t\t\t\t\tvar officialPlotNumber = plotInfoArray[j].officialPlotNumber;\n' \
+                               '\t\t\t\t\tvar yearOfBuilt = plotInfoArray[j].yearOfBuilt;\n' \
+                               '\t\t\t\t\tvar numberOfFloors = plotInfoArray[j].numOfFloors;\n\n' \
+                               '\t\t\t\t\tdocument.body.addEventListener("click", function(event){\n' \
+                               '\t\t\t\t\t\tdocument.getElementById("span__plotID").innerHTML = plotId;\n' \
+                               '\t\t\t\t\t\tdocument.getElementById("span__plotUse").innerHTML = plotUse;\n' \
+                               '\t\t\t\t\t\tdocument.getElementById("span__frontWidth").innerHTML = frontWidth;\n' \
+                               '\t\t\t\t\t\tdocument.getElementById("span__buildingName").innerHTML = buildingName;\n' \
+                               '\t\t\t\t\t\tdocument.getElementById("span__officialPlotNumber").innerHTML = officialPlotNumber;\n' \
+                               '\t\t\t\t\t\tdocument.getElementById("span__yearOfBuilt").innerHTML = yearOfBuilt;\n' \
+                               '\t\t\t\t\t\tdocument.getElementById("span__numberOfFloors").innerHTML = numberOfFloors;\n' \
+                               '\t\t\t\t\t\tdocument.getElementById("span__eachFloorUsage").innerHTML = floorInfo;\n' \
+                               '\t\t\t\t\t});\n\n'
+
+                js_function += '\t\t\t\t\ttip = new Tooltip("Plot ID: " + array_' + shape[0] + 's_' + html_filename[0:len(html_filename) - 3] + '[i].plotId, mouseX, mouseY, 250, 35);\n'
                 js_function += '\t\t\t\t\ttip.show();\n'
                 js_function += '\t\t\t\t}\n'
 
                 js_function += '\t\t\t\telse\n'
                 js_function += '\t\t\t\t{\n'
+                js_function += '\t\t\t\t\ttip = new Tooltip("Plot ID: " + array_' + shape[0] + 's_' + html_filename[0:len(html_filename) - 3] + '[i].plotId, mouseX, mouseY, 250, 35);\n'
+                js_function += '\t\t\t\t\ttip.show();\n'
                 js_function += '\t\t\t\t}\n'
 
                 js_function += '\t\t\t}\n'
@@ -470,4 +494,4 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
     file.write(js_function)
 
 
-parse("../data/GKGasLines.svg", "gaslines.js")
+parse("../data/GKPlotProfile.svg", "plotprofile.js")
