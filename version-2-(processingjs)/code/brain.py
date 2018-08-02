@@ -2,7 +2,7 @@
 from xml.dom import minidom
 from xml_manager import *           #(custom  module)
 from global_manager import *        #(custom  module)
-from html_manager import *          #(custom  module)
+from js_manager import *          #(custom  module)
 
 
 def parse(xml_filename, html_filename):                     ##Takes a '.svg' file and generates an 'html' file from it
@@ -67,6 +67,15 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                         'var pointer_' + shape + 's_' + html_filename[0:len(html_filename)-3] + ' = null;\n\n'
     js_filler += '\n\n'
 
+    js_filler += '//Map size\n' \
+                 'var zoom = 0.5;\n\n'
+
+    if(html_filename == "basemap.js" or html_filename == "plotprofile.js"):
+        js_filler += '//Alignment -> Only a basemap property\n' \
+                 'var alignX = 0;\n' \
+                 'var alignY = 0;\n\n'
+
+
     js_filler += '//Tooltip\n' \
                  'var tip = null;\n\n'
 
@@ -75,15 +84,19 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
 
                                                                             ##canvas name hard-coded. FIX IT!
     js_function = ''
-    js_function += 'function ' + html_filename[0:len(html_filename) - 3] + '()\n'
+    js_function += 'function ' + html_filename[0:len(html_filename) - 3] + '(plotInfoArray)\n'
     js_function += '{\n'
-    js_function += '\tclear();\n' \
+    js_function += '\t//clear();\n' \
                    '\tvar i = 0;\n\n'
     print(rects_info)
 
+    ## Writing JavaScript for shapes
     for shape in count_shapes:
 
         if(shape[1] != 0):
+
+            # *********************************************** RECTANGLE ***********************************************
+
             if(shape[0] == "rect"):
                 shapeCounter = 0
                 js_filler += '\t//' + shape[0] + '\n'
@@ -93,7 +106,8 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                         js_filler += '\tvar ' + shape[0] + str(shapeCounter) + ' = ['
 
                         for coordinate in range(0, len(rects_info[rect_no][1])):
-                            js_filler += 'createVector' + str(rects_info[rect_no][1][coordinate])
+                            js_filler += 'createVector(' + str(rects_info[rect_no][1][coordinate][0]) + '*zoom + alignX' + ', ' + \
+                                         str(rects_info[rect_no][1][coordinate][1]) + '*zoom + alignY' + ')'
 
                             if (coordinate != len(rects_info[rect_no][1]) - 1):
                                 js_filler += ', '
@@ -110,7 +124,8 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                         js_filler += '\tvar ' + shape[0] + str(shapeCounter) + ' = ['
 
                         for coordinate in range(0, len(rects_info[rect_no][1])):
-                            js_filler += 'createVector' + str(rects_info[rect_no][1][coordinate])
+                            js_filler += 'createVector(' + str(rects_info[rect_no][1][coordinate][0]) + '*zoom + alignX' + ', ' + \
+                                         str(rects_info[rect_no][1][coordinate][1]) + '*zoom + alignY' + ')'
 
                             if (coordinate != len(rects_info[rect_no][1]) - 1):
                                 js_filler += ', '
@@ -155,6 +170,7 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                                                                       0:len(html_filename) - 3] + '[i].color(0, 0, 0, 255);\n'
                 js_function += '\t\t}\n\t}\n\n'
 
+            # *********************************************** CIRCLE ***********************************************
 
             if(shape[0] == "circle"):
                 shapeCounter = 0
@@ -170,7 +186,8 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                     if (circles_info[circle_no][0] == 'cls-4'):
                         js_filler += '\tvar ' + shape[0] + str(shapeCounter) + ' = '
 
-                        js_filler += 'createVector(' + str(circles_info[circle_no][1][0]) + ', ' + str(circles_info[circle_no][1][1]) + ')'
+                        js_filler += 'createVector(' + str(circles_info[circle_no][1][0]) + '*zoom' + ', ' + \
+                                     str(circles_info[circle_no][1][1]) + '*zoom' + ')'
 
 
                         js_filler += ';\n'
@@ -206,6 +223,7 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                                                                       0:len(html_filename) - 3] + '[i].color(0, 0, 0, 255);\n'
                 js_function += '\t\t}\n\t}\n\n'
 
+            # *********************************************** ELLIPSE ***********************************************
 
             if (shape[0] == "ellipse"):
                 for ellipse in ellipses_info:
@@ -222,6 +240,7 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                     if (ellipse[0] == 'cls-6'):
                         pass
 
+            # *********************************************** LINE ***********************************************
 
             if (shape[0] == "line"):
                 for line_no in range(len(lines_info)):
@@ -239,6 +258,8 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                     if (lines_info[line_no][0] == 'cls-6'):
                         pass
 
+            # *********************************************** POLYLINE ***********************************************
+
             if (shape[0] == "polyline"):
                 shapeCounter = 0
                 js_filler += '\t//' + shape[0] + '\n'
@@ -251,7 +272,8 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                         js_filler += '\tvar ' + shape[0] + str(shapeCounter) + ' = ['
 
                         for coordinate in range(0, len(polylines_info[polyline_no][1])):
-                            js_filler += 'createVector' + str(polylines_info[polyline_no][1][coordinate])
+                            js_filler += 'createVector(' + str(polylines_info[polyline_no][1][coordinate][0]) + '*zoom' + ', ' + \
+                                         str(polylines_info[polyline_no][1][coordinate][1]) + '*zoom' + ')'
 
                             if(coordinate != len(polylines_info[polyline_no][1])-1):
                                 js_filler += ', '
@@ -267,7 +289,8 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                         js_filler += '\tvar ' + shape[0] + str(shapeCounter) + ' = ['
 
                         for coordinate in range(0, len(polylines_info[polyline_no][1])):
-                            js_filler += 'createVector' + str(polylines_info[polyline_no][1][coordinate])
+                            js_filler += 'createVector(' + str(polylines_info[polyline_no][1][coordinate][0]) + '*zoom' + ', ' + \
+                                         str(polylines_info[polyline_no][1][coordinate][1]) + '*zoom' + ')'
 
                             if (coordinate != len(polylines_info[polyline_no][1]) - 1):
                                 js_filler += ', '
@@ -280,12 +303,30 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
 
 
                     if (polylines_info[polyline_no][0] == 'cls-4'):
-                        pass
+                        js_filler += '\tvar ' + shape[0] + str(shapeCounter) + ' = ['
+
+                        for coordinate in range(0, len(polylines_info[polyline_no][1])):
+                            js_filler += 'createVector(' + str(
+                                polylines_info[polyline_no][1][coordinate][0]) + '*zoom' + ', ' + \
+                                         str(polylines_info[polyline_no][1][coordinate][1]) + '*zoom' + ')'
+
+                            if (coordinate != len(polylines_info[polyline_no][1]) - 1):
+                                js_filler += ', '
+
+                        js_filler += '];\n'
+                        js_filler += '\tpointer_' + shape[0] + 's_' + html_filename[
+                                                                      0:len(html_filename) - 3] + ' = new PolyLine(' + \
+                                     shape[0] + str(shapeCounter) + ');\n'
+                        js_filler += '\tarray_' + shape[0] + 's_' + html_filename[0:len(html_filename) - 3] + '[' + str(
+                            polyline_no) + '] = pointer_' + shape[
+                                         0] + 's_' + html_filename[0:len(html_filename) - 3] + ';\n\n'
+
                     if (polylines_info[polyline_no][0] == 'cls-5'):
                         js_filler += '\tvar ' + shape[0] + str(shapeCounter) + ' = ['
 
                         for coordinate in range(0, len(polylines_info[polyline_no][1])):
-                            js_filler += 'createVector' + str(polylines_info[polyline_no][1][coordinate])
+                            js_filler += 'createVector(' + str(polylines_info[polyline_no][1][coordinate][0]) + '*zoom' + ', ' + \
+                                         str(polylines_info[polyline_no][1][coordinate][1]) + '*zoom' + ')'
 
                             if (coordinate != len(polylines_info[polyline_no][1]) - 1):
                                 js_filler += ', '
@@ -315,16 +356,18 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                                '[i].array_of_vectors[j].y, array_' + shape[0] + 's_' + html_filename[0:len(html_filename)-3] +\
                                '[i].array_of_vectors[j+1].x, array_' + shape[0] + 's_' + html_filename[0:len(html_filename)-3]  + \
                                '[i].array_of_vectors[j+1].y, 1) == true)\n'
-                js_function += '\t\t\t{\n\t\t\t\tarray_' + shape[0] + 's_' + html_filename[0:len(html_filename)-3] + '[i].color(0, 0, 0, 255);\n' ##COLOR CAN CHANGE
+                js_function += '\t\t\t{\n\t\t\t\tarray_' + shape[0] + 's_' + html_filename[0:len(html_filename)-3] + '[i].color(0, 0, 255, 255);\n' ##COLOR CAN CHANGE
 
                 js_function += '\t\t\t\ttip = new Tooltip("' + shape[0] + '" + i, mouseX, mouseY, 100, 40);\n'
                 js_function += '\t\t\t\ttip.show();\n'
 
                 js_function += '\t\t\t}\n\t\t\telse\n\t\t\t{\n' \
-                               '\t\t\t\tarray_' + shape[0] + 's_' + html_filename[0:len(html_filename)-3] + '[i].color(0, 0, 0, 255);\n\t\t\t}\n'  ##COLOR CAN CHANGE
+                               '\t\t\t\tarray_' + shape[0] + 's_' + html_filename[0:len(html_filename)-3] + '[i].color(0, 0, 255, 255);\n\t\t\t}\n'  ##COLOR CAN CHANGE
                 js_function += '\t\t}\n\t}\n\n'
 
-        if (shape[0] == "polygon"):
+            # *********************************************** POLYGON ***********************************************
+
+            if (shape[0] == "polygon"):
                 shapeCounter = 0
                 js_filler += '\t//' + shape[0] + '\n'
 
@@ -334,7 +377,8 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                         js_filler += '\tvar ' + shape[0] + str(shapeCounter) + ' = ['
 
                         for coordinate in range(0, len(polygons_info[polygon_no][1])):
-                            js_filler += 'createVector' + str(polygons_info[polygon_no][1][coordinate])
+                            js_filler += 'createVector(' + str(polygons_info[polygon_no][1][coordinate][0]) + '*zoom + alignX' + ', ' + \
+                                         str(polygons_info[polygon_no][1][coordinate][1]) + '*zoom + alignY' + ')'
 
                             if (coordinate != len(polygons_info[polygon_no][1]) - 1):
                                 js_filler += ', '
@@ -350,7 +394,8 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                         js_filler += '\tvar ' + shape[0] + str(shapeCounter) + ' = ['
 
                         for coordinate in range(0, len(polygons_info[polygon_no][1])):
-                            js_filler += 'createVector' + str(polygons_info[polygon_no][1][coordinate])
+                            js_filler += 'createVector(' + str(polygons_info[polygon_no][1][coordinate][0]) + '*zoom + alignX' + ', ' + \
+                                         str(polygons_info[polygon_no][1][coordinate][1]) + '*zoom + alignY' + ')'
 
                             if (coordinate != len(polygons_info[polygon_no][1]) - 1):
                                 js_filler += ', '
@@ -379,12 +424,35 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
                 js_function += '\tfor(i=0; i<' + str(shapeCounter) + '; i++)\n' \
                                 '\t{\n\t\tif(collidePointPoly(mouseX, mouseY, array_' + shape[0] +'s_' + html_filename[0:len(html_filename) - 3] + \
                                '[i].array_of_vectors) == true)\n'
-                js_function += '\t\t{\n\t\t\tarray_' + shape[0] +'s_' + html_filename[0:len(html_filename) - 3] + '[i].color(0, 0, 0, 255);\n'    ##COLOR CAN CHANGE
-                js_function += '\t\t\ttip = new Tooltip("' + shape[0] + '" + i, mouseX, mouseY, 100, 40);\n'
-                js_function += '\t\t\ttip.show();\n'
+                js_function += '\t\t{\n\t\t\tarray_' + shape[0] +'s_' + html_filename[0:len(html_filename) - 3] + '[i].color(244, 205, 65, 255);\n\n'    ##COLOR CAN CHANGE
+
+                js_function += '\t\t\tfor(var j=0; j<plotInfoArray.length; j++)\n' \
+                                '\t\t\t{\n\t\t\t\tif(array_' + shape[0] +'s_' + html_filename[0:len(html_filename) - 3] + \
+                               '[i].plotId == plotInfoArray[j].plotId)\n'
+                js_function += '\t\t\t\t{\n'
+                js_function += '\t\t\t\t\tvar floorInfo = "";\n'
+                js_function += '\t\t\t\t\tfor(var k=0; k<plotInfoArray[j].eachFloorUsage.length; k++)\n'
+                js_function += '\t\t\t\t\t{\n'
+                js_function += '\t\t\t\t\t\tfloorInfo += \'\\n\' + "Floor " + k + ": " + plotInfoArray[j].eachFloorUsage[k].floor;\n'
+                js_function += '\t\t\t\t\t}\n\n'
+
+                js_function += '\t\t\t\t\ttip = new Tooltip("Plot Information:" + \'\\n\' + "---------------------" + \'\\n\' + "Plot ID: " + plotInfoArray[j].plotId + \'\\n\' + "Plot Use: " + plotInfoArray[j].plotUse +\n' \
+                                            '\t\t\t\t\t\t\'\\n\' + "Front Width: " + plotInfoArray[j].frontWidth + \'\\n\' + "Building Name: " + plotInfoArray[j].buildingName +\n' \
+                                            '\t\t\t\t\t\t\'\\n\' + "Official Plot Number: " + plotInfoArray[j].officialPlotNumber + \'\\n\' + "Year of Built: " + plotInfoArray[j].yearOfBuilt +\n' \
+                                            '\t\t\t\t\t\t\'\\n\' + "No. of Floors: " + plotInfoArray[j].numOfFloors + \'\\n\' + "Each Floor Usage: " + floorInfo,\n' \
+                                            '\t\t\t\t\t\tmouseX, mouseY, 250, 300);\n'
+                js_function += '\t\t\t\t\ttip.show();\n'
+                js_function += '\t\t\t\t}\n'
+
+                js_function += '\t\t\t\telse\n'
+                js_function += '\t\t\t\t{\n'
+                js_function += '\t\t\t\t}\n'
+
+                js_function += '\t\t\t}\n'
+
                 js_function += '\t\t}\n' \
                                '\t\telse\n\t\t{\n' \
-                               '\t\t\tarray_' + shape[0] +'s_' + html_filename[0:len(html_filename) - 3] + '[i].color(0, 0, 0, 255);\n'
+                               '\t\t\tarray_' + shape[0] +'s_' + html_filename[0:len(html_filename) - 3] + '[i].color(244, 205, 65, 255);\n'
                 js_function += '\t\t}\n\t}\n'
 
                 js_function += '}\n\n'
@@ -402,4 +470,4 @@ def parse(xml_filename, html_filename):                     ##Takes a '.svg' fil
     file.write(js_function)
 
 
-parse("../Data Files/GKWaterLines.svg", "waterlines.js")
+parse("../data/GKGasLines.svg", "gaslines.js")
