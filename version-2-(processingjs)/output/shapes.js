@@ -135,9 +135,11 @@ function Polygon(array_of_vectors, stroke_or_fill, plotId)
 }
 
 //Rectangle
-function Rectangle(array_of_vectors, stroke_or_fill)
+function Rectangle(array_of_vectors, stroke_or_fill, plotId)
 {
 	this.array_of_vectors = array_of_vectors;
+	this.stroke_or_fill = stroke_or_fill;
+	this.plotId = plotId;
 	
 	this.col = 135;
 
